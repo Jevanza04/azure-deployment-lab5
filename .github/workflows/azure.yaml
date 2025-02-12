@@ -5,20 +5,19 @@ on:
     branches:
       - main
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
   deploy:
+    environment: azure-deployment  # This is your GitHub Environment name
     runs-on: ubuntu-latest
-    environment: azure-deployment  # Change this to match your GitHub environment name
+    permissions:
+      id-token: write  # Required for OIDC authentication
+      contents: read
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Login to Azure
+      - name: Login to Azure using OIDC
         uses: azure/login@v1
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -29,4 +28,8 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} -d ${{ secrets.AZURE_CONTAINER_NAME }} --source .
+            az storage blob upload-batch \
+              --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} \
+              --container-name ${{ secrets.AZURE_CONTAINER_NAME }} \
+              --source . \
+              --auth-mode login
