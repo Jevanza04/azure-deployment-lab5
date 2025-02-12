@@ -24,9 +24,3 @@ This repository sets up a CI/CD pipeline using GitHub Actions to automatically d
 - `index.html` - Basic webpage.
 - `.github/workflows/azure.yaml` - Deployment workflow.
 
-## Usage
-
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git
-   cd YOUR_REPO_NAME
