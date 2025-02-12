@@ -24,13 +24,12 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Upload files to Azure Blob Storage
+      - name: Upload files to Azure Blob Storage ($web for Static Site)
         uses: azure/CLI@v1
         with:
           inlineScript: |
             az storage blob upload-batch \
               --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} \
-              --destination ${{ secrets.AZURE_CONTAINER_NAME }} \  # This was missing!
+              --destination \$web \  # IMPORTANT: Using $web for static site
               --source . \
               --auth-mode login
-
