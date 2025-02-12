@@ -30,6 +30,7 @@ jobs:
           inlineScript: |
             az storage blob upload-batch \
               --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} \
-              --destination \$web \  # IMPORTANT: Using $web for static site
+              --destination \$web \
               --source . \
-              --auth-mode login
+              --overwrite \
+              --account-key ${{ secrets.AZURE_STORAGE_KEY }}
